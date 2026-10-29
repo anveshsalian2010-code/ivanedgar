@@ -1,0 +1,589 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ivey &amp; Egan Exam Kit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Figtree:ital,wght@0,400;0,600;0,700;1,400&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* Layout: sticky top bar · rail + reading column for Theory and Sessions · centred column for Lab, Cards, Quiz.
+   Colour roles: teal = counsellor, plum = client, amber = supervisor. */
+:root{
+  --bg:#f3f5f2; --surface:#ffffff; --ink:#1b2420; --muted:#5d6b64; --line:#d8dfda;
+  --t:#1f7a68; --t-soft:#dcefe9; --c:#8a3f73; --c-soft:#f4e3ee; --s:#a86c12; --s-soft:#fbefd9;
+  --good:#23885a; --bad:#c43d2c;
+  --display:"Instrument Serif",Georgia,serif; --body:"Figtree",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1513; --surface:#17201c; --ink:#e6ece8; --muted:#98a69f; --line:#2a3631;
+  --t:#5cc5ac; --t-soft:#1a3530; --c:#d58bbf; --c-soft:#3a2233; --s:#e3b25a; --s-soft:#3a2d17; --good:#5fd39a; --bad:#ff8a7a; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f1513; --surface:#17201c; --ink:#e6ece8; --muted:#98a69f; --line:#2a3631;
+  --t:#5cc5ac; --t-soft:#1a3530; --c:#d58bbf; --c-soft:#3a2233; --s:#e3b25a; --s-soft:#3a2d17; --good:#5fd39a; --bad:#ff8a7a; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font:16.5px/1.65 var(--body);margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.wrap{max-width:1140px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{background:var(--surface);border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+header .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:8px 22px;padding-block:10px}
+.logo{font:400 1.55rem var(--display);display:flex;align-items:center;gap:10px;letter-spacing:.005em}
+.logo svg{width:30px;height:22px}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+.btn,nav button{font:600 .9rem var(--body);border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 14px;border-radius:99px;cursor:pointer}
+nav button[aria-selected="true"],.btn.primary{background:var(--t);border-color:var(--t);color:var(--surface)}
+.btn:disabled{opacity:.5;cursor:default}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid var(--s);outline-offset:2px}
+.prog{margin-left:auto;font:500 .76rem var(--mono);color:var(--muted)}
+main{padding-block:26px 80px}
+.eyebrow{font:500 .72rem var(--mono);text-transform:uppercase;letter-spacing:.09em;color:var(--t)}
+h2{font:400 clamp(2rem,5vw,3rem)/1.05 var(--display);margin:.15em 0 .35em;text-wrap:balance}
+h3{font:400 1.7rem/1.15 var(--display);margin:1.4em 0 .4em;text-wrap:balance}
+h4{font:700 1rem var(--body);margin:1.2em 0 .3em}
+p{margin:.4em 0 .9em}
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:34px}
+.rail{display:flex;flex-direction:column;gap:2px;position:sticky;top:80px;align-self:start;max-height:calc(100vh - 96px);overflow:auto;padding-bottom:10px}
+.rail .grp{font:500 .68rem var(--mono);text-transform:uppercase;letter-spacing:.09em;color:var(--muted);padding:12px 10px 4px}
+.rail button{all:unset;cursor:pointer;padding:7px 10px;border-radius:10px;display:grid;grid-template-columns:30px 1fr auto;gap:6px;font-size:.93rem;align-items:baseline;line-height:1.35}
+.rail button .n{font:500 .7rem var(--mono);color:var(--muted)}
+.rail button:hover{background:var(--surface)}
+.rail button[aria-current="true"]{background:var(--surface);box-shadow:inset 3px 0 0 var(--t);font-weight:700}
+.rail button:focus-visible{outline:3px solid var(--s)}
+.rail .tick{color:var(--good)}
+article{min-width:0}
+.plate{background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin:10px 0 22px}
+.plate svg{display:block;width:100%;height:auto;max-height:320px}
+.plate .cap{font-size:.86rem;color:var(--muted);padding:9px 16px;border-top:1px solid var(--line)}
+.reading{max-width:70ch}
+.reading p{hyphens:auto}
+.keys{background:var(--t-soft);border-radius:16px;padding:6px 22px 14px;margin:0 0 26px;max-width:76ch}
+.keys h3{margin-top:.5em;font-size:1.4rem}
+.keys ul{padding-left:1.15em;display:grid;gap:6px;margin:.2em 0}
+.src h3{border-top:1px solid var(--line);padding-top:.8em}
+ol.items,ul.items{padding-left:1.3em;display:grid;gap:6px}
+mark{background:linear-gradient(transparent 58%,var(--s-soft) 58%);color:inherit;padding:0 2px}
+.tbl{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface);margin:.6em 0 1em}
+table{border-collapse:collapse;width:100%;font-size:.92rem;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:8px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:500 .68rem var(--mono);text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}
+tr:last-child td{border-bottom:0}
+.tip{border-left:4px solid var(--s);background:var(--surface);padding:10px 16px;border-radius:0 12px 12px 0;margin:22px 0;font-size:.96rem;max-width:76ch}
+.done-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px;padding-top:18px;border-top:1px solid var(--line)}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+input,select,textarea{font:inherit;padding:8px 11px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+textarea{width:100%;min-height:70px}
+label.f{display:grid;gap:4px;font:600 .82rem var(--body);color:var(--muted);flex:1;min-width:180px}
+.chip{display:inline-block;font:500 .72rem var(--mono);padding:2px 9px;border-radius:99px;background:var(--t-soft);color:var(--t);margin:2px 4px 2px 0;white-space:nowrap}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chips button{all:unset;cursor:pointer;font:600 .8rem var(--body);padding:5px 12px;border-radius:99px;border:1px solid var(--line);background:var(--surface)}
+.chips button[aria-pressed="true"]{background:var(--t);border-color:var(--t);color:var(--surface)}
+.chips button:focus-visible{outline:3px solid var(--s)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:6px 22px 18px;margin:16px 0}
+.card h3{margin-top:.4em}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:12px 0}
+.stat{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.stat b{display:block;font:400 2rem/1 var(--display);font-variant-numeric:tabular-nums}
+.stat span{font-size:.8rem;color:var(--muted)}
+/* transcript */
+.chat{display:flex;flex-direction:column;gap:10px;margin:10px 0}
+.msg{max-width:min(620px,88%);padding:10px 14px;border-radius:16px;position:relative}
+.msg .meta{display:flex;gap:8px;align-items:baseline;font:500 .7rem var(--mono);color:var(--muted);margin-bottom:3px;flex-wrap:wrap}
+.msg.T{align-self:flex-start;background:var(--t-soft);border-bottom-left-radius:4px}
+.msg.C{align-self:flex-end;background:var(--c-soft);border-bottom-right-radius:4px}
+.msg.S{align-self:center;background:var(--s-soft);border:1px dashed var(--s);font-style:italic;max-width:min(520px,92%)}
+.msg.T .who{color:var(--t)} .msg.C .who{color:var(--c)} .msg.S .who{color:var(--s)}
+.msg .skills{margin-top:5px}
+.msg.dim{opacity:.28}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.82rem;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:4px;margin-right:5px;vertical-align:-1px}
+details.tx summary{cursor:pointer;font:600 .95rem var(--body);padding:8px 0}
+/* lab */
+.center{max-width:720px;margin:0 auto}
+.opts{display:grid;gap:8px;margin:14px 0}
+.opts button{all:unset;cursor:pointer;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px}
+.opts button:hover:not(:disabled){border-color:var(--t)}
+.opts button:focus-visible{outline:3px solid var(--s)}
+.opts button.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 15%,var(--surface))}
+.opts button.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 15%,var(--surface))}
+.bar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--t);transition:width .3s}
+.out{font:400 1.35rem/1.4 var(--display);background:var(--t-soft);border-radius:14px;padding:14px 18px;margin:12px 0;min-height:60px}
+.score{font:400 3.6rem var(--display);font-variant-numeric:tabular-nums}
+.hint{font-size:.86rem;color:var(--muted)}
+.fc{perspective:1200px;height:300px;cursor:pointer;margin:16px 0}
+.fc-in{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
+.fc.flip .fc-in{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px;display:flex;flex-direction:column;justify-content:center;gap:10px;overflow:auto}
+.face.back{transform:rotateY(180deg);border-color:var(--t)}
+.face .q{font:400 1.8rem/1.2 var(--display);text-wrap:balance}
+/* svg art */
+.art text{font-family:var(--body)}.art text:not([fill]){fill:var(--ink)}
+.art .mono{font-family:var(--mono)}
+.art text.mut,.art .mut{fill:var(--muted)}
+.art .box{fill:var(--surface);stroke:var(--line);stroke-width:2}
+.art .ln{stroke:var(--line);stroke-width:2;fill:none}
+.pulse{animation:pulse 2.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.rise{animation:rise .7s ease both}
+@keyframes rise{from{opacity:.15;transform:translateY(14px)}to{opacity:1;transform:none}}
+.bob{animation:bob 4s ease-in-out infinite;transform-box:fill-box}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+.lean{animation:lean 4s ease-in-out infinite;transform-box:fill-box;transform-origin:50% 100%}
+@keyframes lean{0%,30%{transform:rotate(0)}50%,85%{transform:rotate(9deg)}100%{transform:rotate(0)}}
+.dash{stroke-dasharray:6 8;animation:dash 1.4s linear infinite}
+@keyframes dash{to{stroke-dashoffset:-28}}
+.orbit{animation:orbit 24s linear infinite;transform-origin:320px 135px}
+@keyframes orbit{to{transform:rotate(360deg)}}
+.orbit .counter{animation:orbit 24s linear infinite reverse;transform-box:fill-box;transform-origin:center}
+.pyr rect{cursor:pointer;transition:opacity .2s}
+.pyr g:hover rect{opacity:.8}
+.model.recall p,.model.recall li,.model.recall td{filter:blur(5px);transition:filter .2s}
+.model.recall p:hover,.model.recall li:hover,.model.recall td:hover{filter:none}
+.meta-row{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 14px}
+.plan ol{padding-left:1.3em;display:grid;gap:5px;margin:.3em 0}
+.vgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+details.vq{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 16px}
+details.vq summary{cursor:pointer;font-weight:700;list-style:none}
+details.vq summary::-webkit-details-marker{display:none}
+details.vq summary::before{content:"+ ";color:var(--t);font-family:var(--mono)}
+details.vq[open] summary::before{content:"– "}
+details.vq p{margin:.5em 0 0}
+.vhead{display:flex;flex-wrap:wrap;gap:12px;align-items:end;justify-content:space-between;margin-bottom:12px}
+.vgroup h3{margin:1.2em 0 .5em}
+@media (max-width:800px){
+  .layout{grid-template-columns:1fr;gap:12px}
+  .rail{position:static;flex-direction:row;overflow-x:auto;max-height:none}
+  .rail .grp{display:none}
+  .rail button{white-space:nowrap;border:1px solid var(--line);grid-template-columns:auto auto auto;background:var(--surface)}
+  header{position:static}
+  .prog{margin-left:0;width:100%}
+  .fc{height:340px}
+  .msg{max-width:94%}
+}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+</head>
+<body>
+<header><div class="wrap">
+  <div class="logo"><svg viewBox="0 0 30 22" aria-hidden="true"><path d="M2 4a3 3 0 0 1 3-3h11a3 3 0 0 1 3 3v7a3 3 0 0 1-3 3H9l-4 4v-4a3 3 0 0 1-3-3z" fill="var(--t)"/><path d="M28 8a3 3 0 0 0-3-3h-4v6a5 5 0 0 1-5 5h-3a3 3 0 0 0 3 3h5l4 3v-3a3 3 0 0 0 3-3z" fill="var(--c)"/></svg>Ivey &amp; Egan Exam Kit</div>
+  <nav role="tablist" aria-label="Study modes">
+    <button role="tab" data-mode="answers" aria-selected="true">Exam answers</button>
+    <button role="tab" data-mode="viva">Viva bank</button>
+    <button role="tab" data-mode="lab">Practice</button>
+    <button role="tab" data-mode="cards">Flashcards</button>
+    <button role="tab" data-mode="quiz">Quiz</button>
+  </nav>
+  <div class="prog" id="prog"></div>
+</div></header>
+
+<main class="wrap">
+  <section id="answers" class="layout"><div class="rail" id="arail"></div><article id="abody"></article></section>
+  <section id="viva" hidden></section>
+  <section id="lab" class="center" hidden></section>
+  <section id="cards" class="center" hidden></section>
+  <section id="quiz" class="center" hidden></section>
+</main>
+
+<script>
+/* Exam answers — written as original study notes based on Ivey, Ivey & Zalaquett (2018, 9th ed.) and Egan (2014, 10th ed.). Page numbers refer to those editions. */
+const ANSWERS=[
+{id:"skills",book:"Ivey",ch:"Ch 1–12",pages:"pp. 3–306",name:"Interviewing skills (microskills)",art:"pyramid",
+ plan:["Define intentional interviewing and microskills","Microskills hierarchy: foundation → apex","Attending (3 V's + B) and observation","Basic listening sequence: questions, encouragers, paraphrase, reflection of feeling, summary","Empathy: subtractive, basic, additive","Five-stage session structure","Focusing, empathic confrontation, reflection of meaning, interpretation/reframe","Influencing skills: self-disclosure, feedback, logical consequences, psychoeducation","Integration, personal style and conclusion"],
+ body:`<h3>Introduction</h3>
+<p>Ivey, Ivey and Zalaquett describe interviewing, counselling and psychotherapy as overlapping processes. Interviewing is the most basic: gathering information and helping clients resolve issues. Counselling deals with normal developmental and adjustment concerns. Psychotherapy works with deeper, longer-standing difficulties. All three rely on the same set of <b>microskills</b>: single, observable units of communication, such as an open question or a reflection of feeling, that can be learned one at a time and then combined into a natural style. The aim is <b>intentionality</b>: being able to choose, from many possible responses, the one most likely to help this particular client. If one response doesn't work, the intentional counsellor flexes and tries another.</p>
+<h3>The microskills hierarchy</h3>
+<p>The skills are arranged as a pyramid. The <b>foundation</b> is ethics, multicultural competence, positive psychology and resilience, therapeutic lifestyle changes and neuroscience. Above that sit <b>attending and observation</b>, then the <b>basic listening sequence</b>, then the <b>five-stage session</b>, then <b>focusing, empathic confrontation, reflection of meaning and interpretation/reframing</b>, then the <b>influencing skills</b>. At the apex are <b>skill integration, personal style and transcendence</b>, the ability to go beyond what one has been taught and adapt it creatively. All counselling theories use the same microskills in different patterns, so mastering them prepares the counsellor for any theory.</p>
+<h3>Attending and observation</h3>
+<p><b>Attending behaviour</b> is summarised as <b>3 V's + B</b>: <i>visual/eye contact</i>, <i>vocal qualities</i> (tone and speech rate), <i>verbal tracking</i> (staying with the client's topic rather than changing the subject) and <i>body language</i> (facing the client naturally, leaning slightly forward, an expressive face). All four must be adapted to individual and cultural differences, for example where direct eye contact feels intrusive. Attending reduces counsellor talk time so the client can tell the story. <b>Observation skills</b> track the client's nonverbal behaviour, verbal patterns (key words, "I" versus "other" statements, concrete versus abstract style) and <b>discrepancies</b> (mixed messages, words versus actions). Good rapport often shows as <b>movement synchrony</b>, and its absence as dyssynchrony.</p>
+<h3>The basic listening sequence</h3>
+<p>Built on attending, the BLS draws out the client's story with its facts, thoughts, feelings and behaviours. <b>Open questions</b> (what, how, why, could) invite elaboration; <b>closed questions</b> (is, are, do) gather specifics but put the burden of talk on the counsellor. <b>Encouragers</b> (nods, "uh-huh", repeating key words) keep the client talking, and a <b>restatement</b> repeats the client's exact words. A <b>paraphrase</b> feeds back the essence of what was said in a shorter, clearer form, using the client's main words plus some of the counsellor's own; it is the key to cognitive empathy. <b>Reflection of feeling</b> names the emotion behind the words, and a <b>summary</b> pulls together a longer stretch of conversation, including emotions. Adding a <b>checkout</b> ("Is that right?") lets the client correct the counsellor.</p>
+<h3>Empathy</h3>
+<p>Empathy is entering the client's world and communicating that understanding. Ivey rates responses on three anchor points. <b>Subtractive</b> responses give back less than the client said or distort it. <b>Basic</b> (interchangeable) responses say back accurately what the client said; skilled use of the BLS shows basic empathy. <b>Additive</b> responses add something useful, such as a link to an earlier statement or a new frame. Influencing skills used well are typically additive.</p>
+<h3>The five-stage session</h3>
+<p>The skills are organised into a session structure that works across theories: (1) <b>empathic relationship</b>: rapport, structuring, early goals; (2) <b>story and strengths</b>: gathering data while drawing out positive assets; (3) <b>goals</b>: set collaboratively; (4) <b>restory</b>: exploring alternatives, confronting incongruities, rewriting the narrative; (5) <b>action</b>: taking new thoughts and behaviours into daily life. The stages are a checklist for every session, not a rigid script. <b>Decision counselling</b> follows the same structure.</p>
+<h3>Transitioning to influence</h3>
+<p><b>Focusing</b> widens the lens through seven foci: client, main theme, others, mutual "we", counsellor, cultural/environmental/contextual, and here-and-now. <b>Empathic confrontation</b> is a supportive challenge: listen, point out the discrepancy ("On one hand…, but on the other hand…"), then evaluate the client's response on the <b>Client Change Scale</b>, from denial through to transcendence. <b>Reflection of meaning</b> ("What does that mean to you?") explores values and purpose from the client's own frame. <b>Interpretation/reframe</b> offers the counsellor's new perspective, often drawn from a theory.</p>
+<h3>Influencing skills</h3>
+<p>Here the counsellor contributes more actively, but the client stays the decider. <b>Self-disclosure</b> should be brief, genuine, timely and in the present tense. <b>Feedback</b> should be concrete, nonjudgmental, focused on strengths and checked out with the client. <b>Logical consequences</b> help clients foresee the likely results of a choice ("If you do…, then… may follow"). <b>Psychoeducation</b>, directives, stress management and therapeutic lifestyle changes help clients act.</p>
+<h3>Conclusion</h3>
+<p>Interviewing skills move from listening to influencing. They rest on an ethical, multicultural and neuroscientific foundation and are integrated into a session that runs from relationship to action. Ivey's message is that competence comes from deliberate practice and from flexibly matching each skill to the client in front of you, until the skills become a natural personal style.</p>`},
+{id:"bls",book:"Ivey",ch:"Ch 5–8",pages:"pp. 109–195 (BLS defined p. 179)",name:"Basic listening sequence (BLS)",art:"bls",
+ plan:["Definition: attending + observation foundation","Five skills: questions, encouraging, paraphrasing, reflecting feelings, summarizing","What each skill does for the client (story, cognition, emotion, mentalizing)","Checkout","Order is flexible; adapt to client","BLS across settings (counselling, management, medicine, daily life)","BLS inside the five stages","Anticipated client response; conclusion"],
+ body:`<h3>Introduction</h3>
+<p>The <b>basic listening sequence (BLS)</b> is Ivey's name for the core group of listening skills used to draw out a client's story. It rests on attending and observation, and on the foundation of ethics, multicultural competence, positive psychology and neuroscience. Ivey notes that the same sequence is used by effective physicians, managers, teachers and friends, so it is a general model of empathic listening, not just a counselling technique.</p>
+<h3>The skills of the BLS</h3>
+<p><b>1. Open and closed questions.</b> Open questions usually come first because they let the client choose what to talk about ("Could you tell me what you'd like to discuss?"). Closed questions then bring out specifics ("How long has this been happening?"). "What else?" questions bring out missing parts of the story.</p>
+<p><b>2. Encouraging.</b> Head nods, an open palm, "uh-huh" and repeating key words keep the client talking and signal that the counsellor is following. A <b>restatement</b> repeats the client's own phrase and gently directs attention to it. Encouragers are used throughout the session.</p>
+<p><b>3. Paraphrasing.</b> The counsellor feeds back the essence of what the client said, shortened and clarified, using the client's key words plus some of their own. Paraphrasing captures the <b>cognitive</b> side of the story and supports the client's executive functioning, their ability to organise and think clearly about the issue.</p>
+<p><b>4. Reflecting feelings.</b> The counsellor names the emotions behind the story ("You feel worried when…"). This supports <b>emotional regulation</b> and lets the client look at the complexity of their feelings.</p>
+<p><b>5. Summarizing.</b> A longer synthesis of facts, thoughts and feelings over part or all of a session. It brings order to scattered material and is central to <b>mentalizing</b> (Theory of Mind), understanding and joining the client's perspective. Summaries can open a session, mark a transition and close a session.</p>
+<p><b>The checkout.</b> Ending a paraphrase, reflection or summary with "Am I hearing you correctly?" gives the client a chance to correct the counsellor. It turns listening into a collaborative check on accuracy.</p>
+<h3>How the BLS is used</h3>
+<p>The skills need not follow a fixed order, but all of them should be used when listening to a client's story. The counsellor uses observation to notice how the client reacts and flexes the style accordingly. A more reserved client may need more encouragers and fewer questions, and a talkative client may need summaries to bring focus.</p>
+<p>Ivey shows the BLS working in four settings. A counsellor helps a client explore a career decision, a manager investigates a production problem, a doctor gathers a patient's headache history, and a friend listens to someone describe a loan meeting. The same five moves apply each time. This is why the BLS is taught in medical schools and used to train helpers around the world.</p>
+<h3>The BLS and the five-stage session</h3>
+<p>The BLS is the engine of a session conducted with listening skills only. In <b>Stage 1</b> it builds rapport. In <b>Stage 2</b> (story and strengths) it gathers the facts, thoughts, feelings and behaviours. In <b>Stage 3</b> it helps define goals. In <b>Stage 4</b> it explores alternatives, and in <b>Stage 5</b> it checks the client's commitment to action. Ivey points out that many clients can resolve their concerns using only attending, observation and the BLS, without any influencing skills.</p>
+<h3>Anticipated client response</h3>
+<p>When the BLS is used well, clients discuss their stories, including the key facts, thoughts, feelings and behaviours, and feel that they have been heard. The counsellor gains a full picture of the client's concern before attempting any change. Clients often stop repeating themselves and start exploring new ground.</p>
+<h3>Conclusion</h3>
+<p>The BLS is the foundation of empathic understanding. Questions open the story, encouragers keep it going, paraphrases capture its meaning, reflections capture its emotion, and summaries integrate it. Checkouts keep the process accurate.</p>`},
+{id:"rof",book:"Ivey",ch:"Ch 7",pages:"pp. 154–178 (dimensions p. 160)",name:"Reflection of feeling: the dimensions",art:"rof",
+ plan:["Why reflection of feeling is the heart of empathy","Emotions vs feelings; primary vs social emotions","How to identify emotions (5 sources)","The skill dimensions: stem, feeling label, context, tense/immediacy, checkout, positive emotions","Acknowledgment of feelings","Micro and macro nonverbals of emotion","Cautions: art not formula; culture","Conclusion"],
+ body:`<h3>Introduction</h3>
+<p>Ivey calls reflection of feeling "the heart of empathic understanding". Paraphrasing captures what the client <i>thinks</i>; reflection of feeling captures what the client <i>feels</i>. Since emotions drive much of our thinking and behaviour, naming and sorting them is often what makes change possible.</p>
+<h3>Emotions and feelings</h3>
+<p>Emotions are bodily based reactions, and feelings are the words we use to describe their mixtures. Ivey treats <b>sad, mad, glad and scared</b> as primary emotions that appear universal and serve as root words for a feeling vocabulary. <b>Social emotions</b> such as guilt, embarrassment and pride are built on these and learned in family and cultural contexts. Words like "confused" or "mixed up" often signal conflicting emotions underneath.</p>
+<h3>Identifying emotions</h3>
+<p>The counsellor attends to: (1) emotional words the client uses; (2) implicit feelings that are not spoken; (3) nonverbal expressions in face and body; (4) micro nonverbal expressions; and (5) mixed verbal and nonverbal cues, which often show a discrepancy. Vocal tone, hesitations and changes in loudness are further clues.</p>
+<h3>The skill dimensions of reflection of feeling</h3>
+<p><b>1. Sentence stem.</b> Begin with a stem such as "Sounds like you feel…", "I sense you're feeling…" or "Could it be that you feel…?" Stems are easily overused and can sound comical, so vary them or leave them out. Using the client's name and "you" personalises the reflection.</p>
+<p><b>2. Feeling label.</b> Add an emotion word: "Priya, you seem to feel sad…". For mixed feelings, use more than one label: "You feel both excited and nervous…".</p>
+<p><b>3. Context or brief paraphrase.</b> Link the feeling to its source with words like <i>about</i>, <i>when</i> or <i>because</i>: "…anxious <i>when</i> the exam paper is handed out."</p>
+<p><b>4. Tense and immediacy.</b> Present-tense reflections ("Right now you look very angry") are usually more powerful than past or future ones. Some clients find the here-and-now too intense, and a "there and then" reflection may feel safer.</p>
+<p><b>5. Checkout.</b> Ask whether the reflection is accurate ("Am I hearing you correctly?"), especially when naming a feeling the client hasn't said aloud. This lets the client correct you, or hold back if you're closer to a truth than they're ready to admit.</p>
+<p><b>6. Bring out positive emotions and strengths.</b> Reflecting only fear, anger and sadness can reinforce negative thinking. Drawing out positive emotional stories alongside difficulties builds resilience and helps resolution.</p>
+<p><b>Model example:</b> "Arjun, sounds like you're feeling <i>anxious and a bit embarrassed</i> right now <i>about</i> blanking out in the exam… is that right?" This has a name and stem, two labels, context, present tense and a checkout.</p>
+<h3>Acknowledgment of feelings</h3>
+<p>A lighter form: briefly recognising a feeling ("That must be frustrating") and moving on. It puts less pressure on the client and is useful early in counselling, with less verbal clients, with children, and across cultures where open emotional talk is less comfortable.</p>
+<h3>Micro and macro nonverbals</h3>
+<p>Macro nonverbals are easy to see: downcast eyes, turning away, a quiet voice. Micro-expressions are fleeting flashes of concealed emotion, as quick as about one-fifteenth of a second. They are best noted silently and raised later, since the client may not be aware of them. Ivey lists typical cues for emotions such as sadness (drooping eyelids, a downturned mouth, slumped posture) and anger (upright, tense body, tightened lips).</p>
+<h3>Cautions</h3>
+<p>Reflection of feeling is a skill but also an art. Used mechanically it removes authenticity from the relationship. Cultures and individuals differ in how openly they express emotion, so avoid stereotyping and adjust the depth of reflection to the client. The long-term goal is <b>emotional regulation</b>: helping clients experience and manage feelings in the here and now.</p>`},
+{id:"neuro",book:"Ivey",ch:"Ch 1, 2, 3, 12 & Appendix IV",pages:"pp. 16–17, 68–69, 285–286, App. IV",name:"Neuroscience: neuroplasticity, neurogenesis, neural coupling",art:"neuro",
+ plan:["Why neuroscience matters to counselling","Neuroplasticity: the brain rewires; counselling builds new networks","Neurogenesis: new neurons, hippocampus; TLCs, exercise, BDNF","Negative plasticity / negative neurogenesis: stress, cortisol","Mirror neurons and empathy (Singer et al., 2004)","Neural coupling: speaker–listener brains align; breaks with poor listening","Active listening lights up the brain: ventral striatum, mPFC, right anterior insula (Kawamichi et al., 2015)","Implications for practice; conclusion"],
+ body:`<h3>Introduction</h3>
+<p>Ivey and colleagues argue that neuroscience now supports what counsellors long believed: the counselling conversation changes the brain. Brain-imaging methods such as fMRI let researchers see how listening, empathy and stress affect neural activity. This makes counselling a more clearly scientific undertaking and gives counsellors a language for explaining to clients how therapy works.</p>
+<h3>Neuroplasticity</h3>
+<p>Neuroplasticity is the brain's ability to change and reorganise itself throughout life. The old idea of a fixed adult brain is wrong. Experiences, learning and relationships continually add and prune neurons, synapses and connections, so the brain can "rewire" itself. For counselling this means that new ways of thinking, feeling and acting practised in and between sessions become physically encoded as new neural networks. Successful therapy can be expected to build new, useful connections.</p>
+<h3>Neurogenesis</h3>
+<p>Neurogenesis is the birth of completely new neurons, which continues even in old age. It occurs mainly in the <b>hippocampus</b>, the main seat of memory. Ivey links neurogenesis to the <b>therapeutic lifestyle changes (TLCs)</b>: exercise, sleep, nutrition, social relationships, cognitive challenge, cultural health and similar habits. Exercise is singled out because it increases blood flow, serotonin and BDNF (brain-derived neurotrophic factor), which supports new neurons and a larger hippocampus. Counselling conversations that produce new learning, such as a client reframing a painful experience, are described as contributing to new neural connections.</p>
+<h3>Negative plasticity and stress</h3>
+<p>Plasticity works in both directions. Moderate stress can "pump us up" and helps the brain grow. Severe or chronic stress (trauma, poverty, bullying, racism, abuse, continual workplace pressure) raises cortisol, which can damage neurons and networks. Ivey calls this <b>negative neurogenesis</b> or negative plasticity. Because stress underlies most client concerns, stress management and the TLCs become central to almost all counselling.</p>
+<h3>Mirror neurons and empathy</h3>
+<p>Mirror neurons fire both when we act and when we watch someone else act, giving a neural basis for empathy. In Singer and colleagues' (2004) study, when one partner received a mild shock, the observing partner's emotional pain areas fired at the same time as their partner's. Mirror-neuron activation has been reported as reduced in conduct and antisocial personality disorders. Marci and colleagues (2007) found that counsellor and client skin conductance rose in parallel when the client felt understood.</p>
+<h3>Neural coupling</h3>
+<p>Communication is a joint brain activity. In fMRI research on storytelling (Stephens, Silbert & Hasson, 2010), the listener's brain activity <b>couples</b> with the speaker's, so their patterns mirror each other, sometimes with the listener even anticipating the speaker. The stronger the coupling, the better the listener understood the story. Ivey stresses the reverse: when comprehension fails, neural coupling disappears. Applied to counselling, subtractive listening breaks the shared neural rhythm and empathy "falls apart", while accurate paraphrases and reflections keep counsellor and client in sync. Oliveira-Silva and Gonçalves (2011) similarly found heart rate changes in observers showing additive empathy but not in those whose responses were interchangeable or subtractive.</p>
+<h3>Active listening lights up the brain</h3>
+<p>Kawamichi and colleagues (2015) scanned people while they heard listeners respond to their emotional stories with or without active listening. Active listening activated the <b>ventral striatum</b> (the reward system), the <b>medial prefrontal cortex</b> (cognitive empathy) and the <b>right anterior insula</b> (affective empathy and emotional appraisal). Being listened to well is literally rewarding. Other research suggests empathic listening may even increase grey matter.</p>
+<h3>Implications and conclusion</h3>
+<p>For practice: attend carefully, because good listening is neurologically rewarding and builds alliance. Aim for at least basic, and where helpful additive, empathy to maintain neural coupling. Help clients manage stress to prevent negative plasticity. Encourage TLCs, especially exercise, to support neurogenesis. Remember that every session is an opportunity to build new neural networks for more adaptive thoughts, emotions and actions.</p>`},
+{id:"stages",book:"Egan",ch:"Ch 8–14",pages:"pp. 219–404",name:"Egan's stages and the tasks under each",art:"egan",
+ plan:["Skilled Helper = problem-management and opportunity-development model","Stage I (current picture): I-A story, I-B real story, I-C right story","Stage II (preferred picture): II-A possibilities, II-B goals, II-C commitment","Stage III (way forward): III-A possible strategies, III-B best-fit strategies, III-C plan","The action arrow and implementation","Flexibility: entry points, back-and-forth, not linear","Communication skills underneath all stages","Conclusion"],
+ body:`<h3>Introduction</h3>
+<p>Gerard Egan's <i>Skilled Helper</i> model is a <b>problem-management and opportunity-development</b> approach. Egan argues that some version of this process lies at the heart of almost every form of therapy. Helping is about clients managing problem situations and developing unused opportunities more effectively, and becoming better at helping themselves. The model has <b>three stages, each with three tasks</b>, all sitting on an <b>action arrow</b>, and is delivered through the communication skills of the helping dialogue. Each task is framed as a question the client asks themselves.</p>
+<h3>Stage I: The current picture ("What's going on?")</h3>
+<p><b>Task I-A: The story.</b> "What's going on in my life? What are my main concerns?" The helper helps the client tell their story clearly, with neither too much nor too little detail. Guidelines include working with every style of storytelling, starting where the client starts, assessing severity, clarifying key issues, exploring context, talking productively about the past, spotting unused opportunities and resources, and seeing problems as opportunities. Clients are encouraged to act from the very first session and to use time between sessions productively.</p>
+<p><b>Task I-B: The real story.</b> "What's really going on? What new perspectives would help?" Using challenging skills, the helper invites the client to work through <b>blind spots</b>, uncover hidden concerns, clarify vague issues, own their problems, state them as solvable and participate fully. <b>Immediacy</b>, talking about what is happening in the helping relationship itself, belongs here.</p>
+<p><b>Task I-C: The right story.</b> "What should I work on? Which issues will make a real difference?" The helper helps the client choose high-leverage issues: manage a crisis first, start with what causes most pain or what the client sees as important, pick a manageable problem that can lead to general improvement, and make sure the benefits outweigh the costs. The helper also decides whether helping is called for at all.</p>
+<h3>Stage II: The preferred picture ("What do I need or want?")</h3>
+<p><b>Task II-A: Possibilities.</b> "What possibilities do I have for a better future?" The helper builds <b>hope</b> and helps the client imagine a better future through possible selves, creativity, divergent thinking, brainstorming and models.</p>
+<p><b>Task II-B: Goals.</b> "What do I really want and need?" The helper turns possibilities into a <b>change agenda</b>. Goals should be stated as outcomes, specific, able to make a difference, realistic, prudent, sustainable, flexible, consistent with the client's values, and set within realistic time frames. The helper helps the client distinguish needs from wants and consider coping and adaptive goals.</p>
+<p><b>Task II-C: Commitment.</b> "What am I willing to pay for what I want?" Commitment is a dimension of goal-setting rather than a separate step. The helper helps clients make the goals appealing, find incentives, own the agenda, manage competing agendas and obstacles, and build <b>self-efficacy</b> ("I can, I will").</p>
+<h3>Stage III: The way forward ("How do I get what I need or want?")</h3>
+<p><b>Task III-A: Possible strategies.</b> "What actions could get me there?" Brainstorm many strategies, use frameworks to stimulate thinking, and identify the knowledge and skills needed.</p>
+<p><b>Task III-B: Best-fit strategies.</b> "Which strategies are best for me?" Choose strategies that are specific, effective, realistic and consistent with the client's values. Sample before choosing, and use a balance-sheet method to weigh costs and benefits.</p>
+<p><b>Task III-C: Plans.</b> "What should my campaign for change look like? What first, second, third?" Turn strategies into a realistic, step-by-step plan with time frames and contingency plans, tailored to the client's style. Egan stresses that a plan without action is only a wish list.</p>
+<h3>The action arrow and implementation</h3>
+<p>All three stages are about planning for change, not change itself. Implementation (Ch 14) helps clients turn plans into action. This includes overcoming procrastination, avoiding imprudent action, anticipating obstacles, finding resources, incentives and rewards, using self-contracts and implementation intentions, building social support and challenge, and tapping into resilience. Action should start immediately and continue throughout helping.</p>
+<h3>Flexibility</h3>
+<p>The stages are logical but not linear. Clients can enter at any stage, move back and forth, and work on several tasks in one session. The model is a <b>shared map</b>, not a script to impose. Running underneath every stage are the communication skills: tuning in, active listening, empathic responding, checking understanding, probing, summarizing, challenging and negotiating.</p>
+<h3>Conclusion</h3>
+<p>Egan's model gives the helper a clear, client-directed and outcome-informed structure: understand the current picture, design the preferred picture, and plan the way forward, all on a bias for action.</p>`},
+{id:"termination",book:"Egan",ch:"Ch 1, 5, 8, 14",pages:"pp. 19–21, 150–151, 231–232, 401–403",name:"Ending a session and ending helping",art:"ending",
+ plan:["Note: Egan has no single 'termination' chapter; draw on feedback, summarizing, implementation","Ending a session: summary, review of learning, what to do 'out there'","End-of-session feedback: 'How are we doing?'; session-rating survey (Duncan/Miller)","Linking to between-session action and implementation intentions","Ending the helping relationship: getting along without a helper","Avoiding co-dependent, endless helping; choosing not to change","Ivey's Stage 5 (action) as a parallel","Conclusion"],
+ body:`<h3>Introduction</h3>
+<p>Egan does not have a single chapter called "termination". His ideas about ending appear in three places: two-way feedback at the end of every session (Ch 1 and Ch 8), the use of summaries to close (Ch 5), and preparing clients to get along without a helper (Ch 14). Together they give a clear picture of how a skilled helper ends a <b>session</b> and how they end the <b>helping relationship</b>.</p>
+<h3>Ending a session</h3>
+<p><b>Summarize.</b> A summary near the end pulls the main points together, shows the client they have been heard, and gives the client a clearer, more organised picture to take away. Egan, following Brammer, notes that summaries bring a theme to a close and give focus and direction.</p>
+<p><b>Review learning and action.</b> In Egan's case of Laura and Karl, Laura ends each session by helping Karl review what happened, what he learned, and what he needs to do "out there" before the next meeting. Because the whole model sits on an action arrow, every session should end with some agreed step, even a small one, so the time between sessions is used productively.</p>
+<p><b>Ask for feedback: "How are we doing?"</b> Egan treats feedback as a key ingredient of successful therapy. Toward the end of each session the helper checks how the session went: whether the relationship feels right, whether the session dealt with the right topics and goals, whether the approach fits the client, and overall satisfaction. This can be done with a brief survey (Duncan, Miller and colleagues' session-rating system) or informally as a natural part of the dialogue. A matching survey at the start of each session tracks progress in the client's life. The message to the client is "Your input matters, and we will adjust to get you what you want."</p>
+<p><b>Form implementation intentions.</b> Especially where obstacles are foreseen, help the client specify when, where and how they will act ("If X happens, I will do Y"), so the agreement survives once the client leaves the room.</p>
+<h3>Ending the helping relationship</h3>
+<p>Egan is sceptical of clients staying "in therapy" for years. The goal of helping is for clients to manage their lives <b>without a helper</b>. Endings can take several forms: the client takes over the plan after it is developed; the client continues until changes are "in place" and then maintains them alone; the client moves to a self-help group with occasional individual sessions; the client returns occasionally as needed; or, for some chronic conditions, the client uses therapy throughout life. Box 14.2 lists "prepare clients to get along without a helper" as an explicit implementation guideline.</p>
+<p><b>Shadow side.</b> Some helpers enter a covert conspiracy with clients to keep the relationship going, so that talk replaces life-enhancing outcomes and the co-dependent relationship becomes the problem. Ending well means building the client's self-help skills, a social support and challenge system, and resilience.</p>
+<p><b>Choosing not to change.</b> Some clients, after understanding their problem and planning, decide the price of change is too high. The helper invites them to look at incentives and the consequences of not changing, but ultimately respects that it is the client's choice.</p>
+<h3>Link with Ivey</h3>
+<p>Ivey's <b>Stage 5 (action)</b> serves the same purpose: generalising learning to daily life, agreeing homework, summarising the session and planning follow-up. Both authors end sessions with a summary, a concrete next step and an invitation for the client to evaluate.</p>
+<h3>Conclusion</h3>
+<p>For Egan, ending is built into the process from the start. Every session closes with a summary, a review of learning, agreed action and client feedback. The relationship itself ends when the client has the skills, support and resilience to keep going alone.</p>`},
+{id:"compare",book:"Both",ch:"Ivey Ch 1, 8 · Egan Ch 1, 8",pages:"Ivey pp. 3–25, 179–195 · Egan pp. 3–35, 219–235",name:"Egan vs Ivey: comparison",art:"compare",
+ plan:["Introduce both: Ivey's microskills / five stages vs Egan's skilled helper","Similarities: client-centred, empathy, structure, strengths, action, culture, feedback","Differences: unit of analysis (skill vs task/outcome)","Structure: 5 stages vs 3 stages × 3 tasks + action arrow","Relationship: explicit Stage 1 vs skills running underneath","Challenge: confrontation & Client Change Scale vs self-challenge, blind spots","Emphasis: neuroscience, multicultural, TLCs vs problem management, decision-making, shadow side","Table + conclusion"],
+ body:`<h3>Introduction</h3>
+<p>Allen Ivey's <i>Intentional Interviewing and Counseling</i> and Gerard Egan's <i>The Skilled Helper</i> are both skills-based, integrative approaches that can work under any counselling theory. Ivey builds from single microskills up to a five-stage session. Egan builds from a problem-management process supported by communication skills. Both are widely used in training.</p>
+<h3>Similarities</h3>
+<ul class="items"><li><b>Client-centred base.</b> Both rest on Rogers' empathy and respect. The client is the decider (Ivey) and in the "driver's seat" (Egan).</li><li><b>Structure that is flexible.</b> Both offer a sequence (relationship → story → goals → action) but insist it is a map or checklist, not a rigid script; clients move back and forth.</li><li><b>Same listening skills.</b> Ivey's attending and BLS overlap with Egan's tuning in (SOLER), active listening, empathic responding, probing and summarizing.</li><li><b>Strengths and opportunity.</b> Ivey's positive asset search and Egan's unused opportunities and resources both balance the problem focus.</li><li><b>Bias for action.</b> Ivey's Stage 5 and Egan's action arrow both insist that change must reach daily life.</li><li><b>Diversity and feedback.</b> Both stress culture (Ivey's RESPECTFUL model, Egan's "personal culture") and checking with the client (checkouts; "How are we doing?").</li></ul>
+<h3>Differences</h3>
+<p><b>Unit of analysis.</b> Ivey's basic unit is the individual <b>microskill</b>, taught one at a time in a hierarchy. Egan's basic unit is the <b>task</b> or outcome: what the client needs to accomplish at each point.</p>
+<p><b>Structure.</b> Ivey has <b>five stages</b> (empathic relationship, story and strengths, goals, restory, action). Egan has <b>three stages with three tasks each</b> (story, real story, right story; possibilities, goals, commitment; possible strategies, best-fit strategies, plan) plus implementation.</p>
+<p><b>Relationship.</b> Ivey makes the empathic relationship its own first stage. Egan treats the relationship and dialogue skills as running underneath every stage.</p>
+<p><b>Challenge.</b> Ivey uses <b>empathic confrontation</b> of discrepancies and evaluates the response with the Client Change Scale. Egan speaks of inviting <b>client self-challenge</b> and working through blind spots (Task I-B), and adds helper self-challenge and managing reluctance and resistance.</p>
+<p><b>Meaning versus planning.</b> Ivey gives a distinct place to <b>restorying</b>, reflection of meaning and reframing. Egan gives more weight to <b>goal-setting, commitment and strategy selection</b>, with tools like the balance sheet and contingency plans.</p>
+<p><b>Distinctive emphases.</b> Ivey foregrounds <b>neuroscience</b>, multicultural competence, positive psychology and therapeutic lifestyle changes. Egan foregrounds <b>decision-making</b>, the common factors ("ingredients of successful therapy"), the <b>shadow side</b> of helping, and ongoing client feedback.</p>
+<div class="tbl"><table><thead><tr><th>Point</th><th>Ivey</th><th>Egan</th></tr></thead><tbody>
+<tr><td>Core idea</td><td>Intentional use of microskills</td><td>Problem management & opportunity development</td></tr>
+<tr><td>Structure</td><td>5 stages</td><td>3 stages × 3 tasks + action arrow</td></tr>
+<tr><td>Starting point</td><td>Empathic relationship (stage 1)</td><td>Story (I-A); relationship skills underneath</td></tr>
+<tr><td>Goals</td><td>Stage 3: goals</td><td>Stage II: possibilities, goals, commitment</td></tr>
+<tr><td>Change work</td><td>Restory: confrontation, meaning, reframe</td><td>Stage III: strategies, best fit, plan</td></tr>
+<tr><td>Challenge</td><td>Empathic confrontation; Client Change Scale</td><td>Self-challenge; blind spots; immediacy</td></tr>
+<tr><td>Nonverbal</td><td>3 V's + B</td><td>SOLER</td></tr>
+<tr><td>Extra emphasis</td><td>Neuroscience, TLCs, multicultural</td><td>Decision-making, shadow side, feedback</td></tr>
+</tbody></table></div>
+<h3>Conclusion</h3>
+<p>The two models describe the same journey from understanding to action at different levels. Ivey answers "What do I say, moment to moment?" and Egan answers "Where is this helping process going, and what must the client accomplish?" A trainee who uses Ivey's microskills inside Egan's stage-and-task map has both the skills and the direction.</p>`}
+];
+
+/* Viva bank: [book, chapter, question, answer] */
+const VIVA=[
+["Ivey","1 · Intentional interviewing","What is intentionality?","Acting with a sense of capability and choosing flexibly from many possible responses to fit the client and situation. If one lead doesn't work, try another."],
+["Ivey","1 · Intentional interviewing","Interviewing vs counselling vs psychotherapy?","Interviewing gathers information; counselling addresses normal developmental and adjustment concerns; psychotherapy treats deeper, long-standing issues. They overlap considerably."],
+["Ivey","1 · Intentional interviewing","What are microskills?","Single communication skill units (for example, an open question) taught one at a time and then integrated."],
+["Ivey","1 · Intentional interviewing","Name the levels of the microskills hierarchy.","Foundation (ethics, multicultural, positive psychology, neuroscience) → attending & observation → BLS → five stages → focusing, confrontation, meaning, reframe → influencing → integration, personal style, transcendence."],
+["Ivey","1 · Intentional interviewing","What is the main goal of counselling for Ivey?","Resilience and self-actualization: helping clients find their own direction, always in relation to others and their context."],
+["Ivey","1 · Intentional interviewing","Is counselling science or art?","Both. The evidence base is strong, but the counsellor creatively integrates the science into practice for each client."],
+["Ivey","2 · Ethics & multicultural","Key ethical issues in Ivey?","Competence, confidentiality, informed consent, permission to record, doing good and avoiding harm, and social justice action."],
+["Ivey","2 · Ethics & multicultural","What is the RESPECTFUL model?","Ten multicultural dimensions that shape every client: Religion/spirituality, Economic class, Sexual identity, Personal style and education, Ethnic/racial identity, Chronological/life stage, Trauma, Family background, Unique physical characteristics, Location of residence and language."],
+["Ivey","2 · Ethics & multicultural","What are microaggressions?","Brief, everyday verbal, behavioural or environmental slights, intentional or not, that communicate hostility or negativity towards a group. Damaging through repetition."],
+["Ivey","2 · Ethics & multicultural","What is the Soul Wound?","Historical trauma (for example, of Native Americans) that remains “in the soul” and passes across generations."],
+["Ivey","2 · Ethics & multicultural","What are therapeutic lifestyle changes (TLCs)?","Wellness habits like exercise, sleep, nutrition, social relationships, cognitive challenge, cultural health and meditation that build resilience and support neurogenesis."],
+["Ivey","2 · Ethics & multicultural","What is the positive asset search?","Deliberately drawing out client strengths, resources and supports to balance problem talk and build resilience."],
+["Ivey","3 · Attending & empathy","What are the 3 V's + B?","Visual/eye contact, vocal qualities, verbal tracking, body language/facial expression."],
+["Ivey","3 · Attending & empathy","What is selective attention?","Clients talk about what the counsellor attends to, so the counsellor's attention shapes the session and must be used intentionally."],
+["Ivey","3 · Attending & empathy","Three levels of empathy?","Subtractive (less than the client said or distorted), basic/interchangeable (accurately says back), additive (adds a useful link or perspective)."],
+["Ivey","3 · Attending & empathy","Which brain areas does active listening activate?","Ventral striatum (reward), medial PFC (cognitive empathy), right anterior insula (affective empathy) (Kawamichi et al., 2015)."],
+["Ivey","3 · Attending & empathy","What is 'training as treatment'?","Teaching clients listening and social skills: negotiate the skill, explain the behaviours, role-play, plan generalisation."],
+["Ivey","4 · Observation","What do you observe in a client?","Nonverbal behaviour, verbal behaviour (key words, 'I' vs 'other' statements, concrete vs abstract), and discrepancies."],
+["Ivey","4 · Observation","Types of discrepancy?","Between nonverbals, between statements, between words and actions, between goals, between people, and between the client and a situation."],
+["Ivey","4 · Observation","Movement synchrony vs dyssynchrony?","In-tune pairs move harmoniously (synchrony); poor communication shows jerks, shifts and pulling away (dyssynchrony)."],
+["Ivey","4 · Observation","Concrete vs abstract clients?","Concrete clients give specifics but struggle to see patterns; abstract clients self-analyse but struggle with specifics. Neither is best."],
+["Ivey","5 · Questions","Open vs closed questions?","Open (what, how, why, could) can't be answered in a few words; closed (is, are, do) bring specifics but put the burden on the counsellor."],
+["Ivey","5 · Questions","Why is 'could' the most open question?","It explicitly lets the client choose whether and how to answer."],
+["Ivey","5 · Questions","What is the ABC-TF model?","Antecedent, Behaviour, Consequence, plus the Thoughts and Feelings about the event."],
+["Ivey","5 · Questions","Risks of questions?","Bombardment, multiple questions at once, questions as disguised statements, 'why' questions provoking defensiveness, and cultural intrusiveness."],
+["Ivey","5 · Questions","What is a 'What else?' question?","A maximally open question that draws out missing parts of the story."],
+["Ivey","6 · Encourage, paraphrase, summarize","Encourager vs restatement?","An encourager is a brief prompt ('uh-huh', a nod); a restatement repeats the client's exact words and gently directs attention."],
+["Ivey","6 · Encourage, paraphrase, summarize","Four parts of a paraphrase?","Sentence stem, client's key words, the essence in briefer form, checkout."],
+["Ivey","6 · Encourage, paraphrase, summarize","What does a summary add over a paraphrase?","A longer time span, more information and the emotional tone. Used to open, transition and close."],
+["Ivey","6 · Encourage, paraphrase, summarize","What is mentalizing / Theory of Mind?","Understanding others' mental states (beliefs, intentions, perspectives). Summaries support it; the temporal parietal junction is involved."],
+["Ivey","6 · Encourage, paraphrase, summarize","Link between listening and executive functioning?","Paraphrases and summaries help clients organise thinking and regulate emotion, functions of the frontal lobes."],
+["Ivey","7 · Reflecting feelings","Primary emotions?","Sad, mad, glad, scared, which appear universal. Social emotions (guilt, pride, embarrassment) build on them."],
+["Ivey","7 · Reflecting feelings","Acknowledgment vs reflection of feeling?","Acknowledgment briefly names a feeling and moves on; reflection explores it with stem, label, context, tense and checkout."],
+["Ivey","7 · Reflecting feelings","What is a micro-expression?","A fleeting expression of concealed emotion, as fast as about 1/15 of a second. Note it silently first."],
+["Ivey","8 · Five stages & BLS","Five stages of Ivey's session?","Empathic relationship · story & strengths · goals · restory · action."],
+["Ivey","8 · Five stages & BLS","What is decision counselling?","A five-stage model for helping clients make decisions: define the issue, set the goal, generate and choose alternatives, act."],
+["Ivey","8 · Five stages & BLS","Why take notes carefully?","Accurate records are essential. If the counsellor is relaxed about note taking, clients usually are too."],
+["Ivey","9 · Focusing","Seven types of focus?","Client, main theme/problem, others, mutual 'we', counsellor, cultural/environmental/contextual, here-and-now."],
+["Ivey","9 · Focusing","What are genograms used for?","Family and community genograms visually map relationships, stressors and strengths in the client's context."],
+["Ivey","10 · Empathic confrontation","Define empathic confrontation.","A supportive challenge: note discrepancies, feed them back ('On one hand… on the other…'), attend to emotion, and help resolve them."],
+["Ivey","10 · Empathic confrontation","Levels of the Client Change Scale?","1 denial · 2 partial examination · 3 acceptance and recognition · 4 creation of a new solution · 5 transcendence (new, larger constructs)."],
+["Ivey","11 · Meaning & reframe","How do you elicit meaning?","'What does ___ mean to you?', 'What sense do you make of it?', 'What values underlie that?'"],
+["Ivey","11 · Meaning & reframe","Reflection of meaning vs interpretation/reframe?","Meaning comes from the client's own values; a reframe gives a new perspective from the counsellor or a theory."],
+["Ivey","11 · Meaning & reframe","Whose work grounds reflection of meaning?","Viktor Frankl: the last human freedom is to choose one's attitude."],
+["Ivey","12 · Influencing & stress","Guidelines for self-disclosure?","Use 'I' statements and feeling or thought verbs; be genuine, timely, brief and in the present tense."],
+["Ivey","12 · Influencing & stress","Guidelines for feedback?","Client in charge, focus on strengths, concrete, nonjudgmental, here-and-now, lean, and check how it was received."],
+["Ivey","12 · Influencing & stress","Steps of logical consequences?","Listen, explore positive and negative consequences, comment nonjudgmentally, summarise, let the client decide."],
+["Ivey","12 · Influencing & stress","How does stress affect the brain?","Optimal stress promotes neurogenesis; chronic or severe stress raises cortisol and causes negative neurogenesis."],
+["Ivey","13–14 · Theory & integration","How do theories use microskills?","Every theory (person-centred, CBT, crisis counselling and others) uses the microskills in different patterns."],
+["Ivey","13–14 · Theory & integration","What is transcendence?","Going beyond what you've learned to create your own integrated, flexible personal style."],
+["Egan","1 · Ingredients of helping","What is helping about, for Egan?","Helping clients manage problems and develop unused opportunities, and become better at helping themselves (a prevention mentality)."],
+["Egan","1 · Ingredients of helping","Ingredients of successful therapy (common factors)?","The client and their context, the therapist, the relationship, the dialogue, two-way feedback, the treatment approach, problem management, decision-making, and beliefs, values and norms."],
+["Egan","1 · Ingredients of helping","What is the 'shadow side' of helping?","The hidden, often unacknowledged factors (helper flaws, client games, systemic issues) that undermine helping."],
+["Egan","2 · Relationship & values","Values that drive the relationship?","Respect (foundation), empathy (primary orientation), proactive appreciation of diversity, self-responsibility (empowerment), a bias for action (outcome focus)."],
+["Egan","2 · Relationship & values","What is 'personal culture'?","How each individual lives out the beliefs, values and norms of the wider culture, so diversity is seen at the individual level."],
+["Egan","3 · Tuning in & listening","What is SOLER?","Face the client Squarely, Open posture, Lean towards them, good Eye contact, Relaxed. Guidelines, not rules."],
+["Egan","3 · Tuning in & listening","What does active listening attend to?","Clients' experiences, thoughts, behaviours and feelings, their nonverbal messages, and the key themes and context of the story."],
+["Egan","3 · Tuning in & listening","Forms of distorted listening?","Filtered, evaluative, stereotype-based, fact-centred (rather than person-centred), sympathetic listening, and interrupting."],
+["Egan","4 · Empathic responding","Three dimensions of responding skills?","Perceptiveness, know-how, assertiveness."],
+["Egan","4 · Empathic responding","Egan's basic empathy formula?","'You feel… (emotion) because… (experience/behaviour)'. A training scaffold to be used naturally."],
+["Egan","4 · Empathic responding","Poor substitutes for empathy?","No response, distracting questions, clichés, interpretations, advice, parroting, agreement and sympathy, and faking it."],
+["Egan","5 · Probing & summarizing","Forms of probes?","Statements, requests, open questions, and single words or phrases. Follow a probe with empathy, not another probe."],
+["Egan","5 · Probing & summarizing","When are summaries most useful?","At the start of a new session, when a session is going nowhere, and when the client needs a new perspective."],
+["Egan","6–7 · Self-challenge","What are blind spots?","Things clients fail to see or choose not to see that keep them stuck. Challenge turns them into new perspectives."],
+["Egan","6–7 · Self-challenge","Specific challenging skills?","Advanced empathy, information sharing, helper self-disclosure, immediacy, suggestions and recommendations, confrontation, and encouragement."],
+["Egan","6–7 · Self-challenge","Reluctance vs resistance?","Reluctance is hesitancy to engage in the hard work that helping demands; resistance is the client fighting back against feeling coerced or pushed. Both are normal and need to be worked with, not punished."],
+["Egan","6–7 · Self-challenge","Guidelines for inviting self-challenge?","Keep goals in mind, encourage self-challenge, earn the right to challenge, be tentative but not wishy-washy, build on strengths, be specific."],
+["Egan","8 · Problem management","Why is the model 'not linear'?","Clients enter at any stage, move back and forth and work several tasks at once. The model is a shared map, not a script."],
+["Egan","8 · Problem management","What is the action arrow?","All three stages sit on it: action should start immediately, continue throughout and lead to the preferred outcomes."],
+["Egan","8 · Problem management","How should progress be evaluated?","Continuously, treating each case as an N = 1 'mini-experiment', with session and outcome feedback, not just at the end."],
+["Egan","11–12 · Stage II","Why does hope matter in Stage II?","Problems close down the future; helping the client imagine possibilities builds hope and motivation."],
+["Egan","11–12 · Stage II","What makes a good goal?","Outcome language, specific, makes a difference, realistic, prudent, sustainable, flexible, consistent with values, realistic time frame."],
+["Egan","13 · Stage III","Action vs outcome vs impact?","Action is what the client does; the outcome is the result (seven months sober); the impact is the life change (feels better, new friends) (the case of Lacy)."],
+["Egan","13 · Stage III","What is the balance-sheet method?","Weighing the gains and losses of a strategy for self and others, with acceptability and unacceptability, to choose the best fit."],
+["Egan","14 · Implementation","What are implementation intentions?","Specific if-then plans for when, where and how to act, especially when obstacles are expected."],
+["Egan","14 · Implementation","Inertia vs entropy?","Inertia is reluctance to get started; entropy is the tendency of changes to fall apart over time."],
+["Egan","14 · Implementation","Outcome vs process resilience?","Outcome resilience means bouncing back to a previous state; process resilience means continual coping as a normal part of life."]
+];
+
+const $=s=>document.querySelector(s);
+const store={get(k,d){try{return JSON.parse(localStorage.getItem(k))??d}catch{return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch{}}};
+const shuffle=a=>{a=[...a];for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const reduced=()=>matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* ---------- Animated plates ---------- */
+const ART={
+pyramid:()=>{const L=["Ethics · multicultural · positive psychology · TLCs · neuroscience","Attending & observation","Basic listening sequence","Five-stage session","Focusing · confrontation · meaning · reframe","Influencing skills","Integration · style · transcendence"];
+ return `<svg class="art" viewBox="0 0 640 310" role="img" aria-label="Ivey's microskills hierarchy built from the base up">${L.map((t,i)=>{const w=600-i*58,y=272-i*38;return `<g class="rise" style="animation-delay:${i*.18}s"><rect x="${320-w/2}" y="${y}" width="${w}" height="34" rx="8" fill="${i===6?'var(--c)':i%2?'var(--t)':'var(--t-soft)'}"/><text x="320" y="${y+22}" text-anchor="middle" font-size="${i===0?11:12.5}" font-weight="700" ${i%2||i===6?'fill="var(--surface)"':''}>${t}</text></g>`}).join("")}<text x="320" y="20" text-anchor="middle" class="mono mut" font-size="11">IVEY ET AL. (2018) · MICROSKILLS HIERARCHY</text></svg>`},
+bls:()=>{const s=[["Open & closed","questions","the story"],["Encouraging","nods · key words","keeps it going"],["Paraphrasing","cognitive essence","executive function"],["Reflecting","feelings","emotional regulation"],["Summarizing","integration","mentalizing"]];
+ return `<svg class="art" viewBox="0 0 640 280" role="img" aria-label="Five skills of the basic listening sequence around the client, joined by a checkout loop">
+ <circle cx="320" cy="140" r="104" fill="none" stroke="var(--t)" stroke-width="2.5" class="dash"/><circle cx="320" cy="140" r="38" fill="var(--c)"/><text x="320" y="137" text-anchor="middle" fill="var(--surface)" font-weight="700" font-size="13">client's</text><text x="320" y="153" text-anchor="middle" fill="var(--surface)" font-weight="700" font-size="13">story</text>
+ ${s.map(([a,b,c],i)=>{const g=i/5*Math.PI*2-Math.PI/2,x=320+Math.cos(g)*200,y=140+Math.sin(g)*104;return `<g class="pulse" style="animation-delay:${i*.45}s"><rect x="${x-66}" y="${y-28}" width="132" height="56" rx="14" fill="var(--t-soft)" stroke="var(--t)" stroke-width="1.5"/></g><text x="${x}" y="${y-8}" text-anchor="middle" font-size="12.5" font-weight="700">${a}</text><text x="${x}" y="${y+7}" text-anchor="middle" font-size="11">${b}</text><text x="${x}" y="${y+21}" text-anchor="middle" class="mut" font-size="10">${c}</text>`}).join("")}
+ <text x="320" y="272" text-anchor="middle" class="mono" font-size="11" fill="var(--s)">+ CHECKOUT: “Am I hearing you correctly?”</text></svg>`},
+rof:()=>{const p=["Sentence stem","Feeling label","Context","Tense / immediacy","Checkout","Positive emotions"];
+ return `<svg class="art" viewBox="0 0 640 230" role="img" aria-label="Six dimensions of reflection of feeling as a chain">
+ ${p.map((t,i)=>{const x=60+i*104;return `${i?`<line x1="${x-66}" y1="92" x2="${x-38}" y2="92" stroke="var(--t)" stroke-width="3" class="dash"/>`:""}<g class="rise" style="animation-delay:${i*.18}s"><circle cx="${x}" cy="92" r="38" fill="${i===1?'var(--c)':i===5?'var(--s-soft)':'var(--t-soft)'}"/><text x="${x}" y="99" text-anchor="middle" font-size="28" font-family="var(--display)" ${i===1?'fill="var(--surface)"':''}>${i+1}</text><text x="${x}" y="150" text-anchor="middle" font-size="11.5" font-weight="700">${t}</text></g>`}).join("")}
+ <text x="320" y="200" text-anchor="middle" font-size="17" font-family="var(--display)">“Arjun, sounds like you feel <tspan fill="var(--c)">anxious</tspan> right now about the exam… is that right?”</text></svg>`},
+neuro:()=>{const wave=(y,ph,c)=>{let d="";for(let x=0;x<=230;x+=6)d+=(x?"L":"M")+(x)+" "+(y+Math.sin((x+ph)/14)*12).toFixed(1);return `<path d="${d}" fill="none" stroke="${c}" stroke-width="2.5"/>`};
+ return `<svg class="art" viewBox="0 0 640 270" role="img" aria-label="Speaker and listener brains with coupled waves, and new neurons sprouting in the hippocampus">
+ <g><ellipse cx="110" cy="110" rx="80" ry="62" fill="var(--c-soft)" stroke="var(--c)" stroke-width="2"/><text x="110" y="116" text-anchor="middle" font-size="18" font-family="var(--display)">speaker</text></g>
+ <g><ellipse cx="530" cy="110" rx="80" ry="62" fill="var(--t-soft)" stroke="var(--t)" stroke-width="2"/><text x="530" y="116" text-anchor="middle" font-size="18" font-family="var(--display)">listener</text></g>
+ <g transform="translate(205 0)"><g class="dash">${wave(92,0,"var(--c)")}</g><g class="dash">${wave(128,4,"var(--t)")}</g></g>
+ <text x="320" y="70" text-anchor="middle" font-size="13" font-weight="700">neural coupling</text><text x="320" y="164" text-anchor="middle" class="mut" font-size="11">breaks when listening is subtractive</text>
+ ${[0,1,2,3,4].map(i=>`<g class="rise" style="animation-delay:${i*.3}s"><circle cx="${230+i*45}" cy="225" r="7" fill="var(--s)"/><line x1="${230+i*45}" y1="225" x2="${244+i*45}" y2="${205+(i%2)*8}" stroke="var(--s)" stroke-width="2"/><line x1="${230+i*45}" y1="225" x2="${218+i*45}" y2="${208-(i%2)*6}" stroke="var(--s)" stroke-width="2"/></g>`).join("")}
+ <text x="40" y="232" font-size="12" font-weight="700">neurogenesis</text><text x="40" y="248" class="mut" font-size="10.5">new neurons · hippocampus</text>
+ <text x="600" y="232" text-anchor="end" font-size="12" font-weight="700">active listening</text><text x="600" y="248" text-anchor="end" class="mut" font-size="10.5">ventral striatum · mPFC · insula</text></svg>`},
+egan:()=>{const S=[["I · Current picture","What's going on?",["Story","Real story","Right story"]],["II · Preferred picture","What do I want?",["Possibilities","Goals","Commitment"]],["III · Way forward","How do I get it?",["Strategies","Best fit","Plan"]]];
+ return `<svg class="art" viewBox="0 0 640 300" role="img" aria-label="Egan's three stages with three tasks each, sitting on the action arrow">
+ ${S.map(([h,q,t],i)=>{const x=20+i*205;return `<g class="rise" style="animation-delay:${i*.25}s"><rect x="${x}" y="20" width="190" height="210" rx="16" fill="${i===1?'var(--c-soft)':'var(--t-soft)'}"/><text x="${x+95}" y="48" text-anchor="middle" font-size="17" font-family="var(--display)">${h}</text><text x="${x+95}" y="66" text-anchor="middle" class="mut" font-size="11">“${q}”</text>${t.map((k,j)=>`<rect x="${x+16}" y="${82+j*46}" width="158" height="36" rx="10" fill="var(--surface)" stroke="${i===1?'var(--c)':'var(--t)'}"/><text x="${x+30}" y="${105+j*46}" font-size="12" class="mono" fill="${i===1?'var(--c)':'var(--t)'}">${["I","II","III"][i]}-${"ABC"[j]}</text><text x="${x+(i===2?82:68)}" y="${105+j*46}" font-size="12.5" font-weight="700">${k}</text>`).join("")}</g>`}).join("")}
+ <path d="M20 262 L 600 262 L 600 252 L 624 268 L 600 284 L 600 274 L 20 274 Z" fill="var(--s)"/><text x="310" y="272" text-anchor="middle" font-size="12" font-weight="700" fill="var(--surface)">ACTION ARROW · implementation from day one</text></svg>`},
+ending:()=>{const s=[["Summarize","pull it together"],["Review","what was learned"],["Agree action","what to do “out there”"],["Feedback","“How are we doing?”"],["Plan ahead","next session · or no helper"]];
+ return `<svg class="art" viewBox="0 0 640 230" role="img" aria-label="Five moves for closing a session">
+ ${s.map(([a,b],i)=>{const x=68+i*126;return `${i?`<line x1="${x-84}" y1="100" x2="${x-42}" y2="100" stroke="var(--t)" stroke-width="3" class="dash"/>`:""}<g class="rise" style="animation-delay:${i*.2}s"><circle cx="${x}" cy="100" r="42" fill="${i===3?'var(--c)':'var(--t-soft)'}"/><text x="${x}" y="106" text-anchor="middle" font-size="22" font-family="var(--display)" ${i===3?'fill="var(--surface)"':''}>${i+1}</text><text x="${x}" y="164" text-anchor="middle" font-size="12.5" font-weight="700">${a}</text><text x="${x}" y="181" text-anchor="middle" class="mut" font-size="10.5">${b}</text></g>`}).join("")}
+ <text x="320" y="30" text-anchor="middle" class="mono mut" font-size="11">THE LAST FIVE MINUTES · EGAN (2014) WITH IVEY'S STAGE 5</text></svg>`},
+compare:()=>{const I=["Empathic relationship","Story & strengths","Goals","Restory","Action"],E=["(skills underneath)","I · Story → real → right","II · Possibilities → goals → commitment","III · Strategies → best fit → plan","Action arrow / implementation"];
+ return `<svg class="art" viewBox="0 0 640 290" role="img" aria-label="Ivey's five stages aligned with Egan's stages">
+ <text x="150" y="26" text-anchor="middle" font-size="20" font-family="var(--display)" fill="var(--t)">Ivey</text><text x="490" y="26" text-anchor="middle" font-size="20" font-family="var(--display)" fill="var(--c)">Egan</text>
+ ${I.map((t,i)=>`<g class="rise" style="animation-delay:${i*.15}s"><rect x="30" y="${42+i*48}" width="240" height="38" rx="10" fill="var(--t-soft)"/><text x="150" y="${66+i*48}" text-anchor="middle" font-size="12.5" font-weight="700">${i+1}. ${t}</text><line x1="270" y1="${61+i*48}" x2="370" y2="${61+i*48}" stroke="var(--s)" stroke-width="2" class="dash"/><rect x="370" y="${42+i*48}" width="240" height="38" rx="10" fill="var(--c-soft)"/><text x="490" y="${66+i*48}" text-anchor="middle" font-size="12" font-weight="700">${E[i]}</text></g>`).join("")}
+ <text x="320" y="285" text-anchor="middle" class="mut" font-size="11">skill-by-skill (Ivey) · task-by-task towards outcomes (Egan)</text></svg>`}
+};
+
+/* ---------- Exam answers ---------- */
+const wc=h=>h.replace(/<[^>]+>/g," ").split(/\s+/).filter(Boolean).length;
+let done=new Set(store.get("ie-done",[])),acur=store.get("ie-ans","skills"),recall=false;if(!ANSWERS.some(a=>a.id===acur))acur="skills";
+function prog(){$("#prog").textContent=`${done.size}/${ANSWERS.length} answers learned`}
+function arail(){let g="",h="";ANSWERS.forEach((a,i)=>{const grp=a.book==="Both"?"Comparison":a.book==="Ivey"?"Ivey · 9th edition":"Egan · 10th edition";if(grp!==g){g=grp;h+=`<div class="grp">${grp}</div>`}h+=`<button data-id="${a.id}" aria-current="${a.id===acur}"><span class="n">${String(i+1).padStart(2,"0")}</span><span>${a.name}</span>${done.has(a.id)?'<span class="tick">✓</span>':'<span></span>'}</button>`});$("#arail").innerHTML=h}
+function answer(){
+ const i=ANSWERS.findIndex(a=>a.id===acur),a=ANSWERS[i],w=wc(a.body);
+ $("#abody").innerHTML=`<div class="eyebrow">${a.book==="Both"?"Ivey & Egan":a.book} · ${a.ch} · ${a.pages}</div><h2>${a.name}</h2>
+ <div class="meta-row"><span class="chip">${w} words</span><span class="chip">≈ ${Math.max(1,Math.round(w/450*2)/2)} written pages</span><span class="chip">${a.plan.length}-point plan</span></div>
+ <div class="plate">${ART[a.art]()}</div>
+ <div class="keys plan"><h3>Answer plan (memorise this first)</h3><ol>${a.plan.map(p=>`<li>${p}</li>`).join("")}</ol></div>
+ <div class="row" style="margin-bottom:8px"><button class="btn ${recall?"primary":""}" id="rec" aria-pressed="${recall}">${recall?"Recall mode on: hover to reveal":"Recall mode"}</button><span class="hint">Blurs the answer so you can say each part from the plan first.</span></div>
+ <div class="reading model ${recall?"recall":""}">${a.body}</div>
+ <div class="tip"><b>Writing tip.</b> Open with a one-line definition and the author's name and year, use the plan's headings, and finish with a two-line conclusion. That structure alone earns marks.</div>
+ <div class="done-row"><button class="btn ${done.has(a.id)?"":"primary"}" id="mark">${done.has(a.id)?"Learned ✓":"Mark as learned"}</button>${ANSWERS[i+1]?`<button class="btn" id="next">Next: ${ANSWERS[i+1].name} →</button>`:""}</div>`;
+ $("#abody .model").classList.toggle("recall",recall);
+ if(reduced())document.querySelectorAll("#abody svg").forEach(s=>s.pauseAnimations&&s.pauseAnimations());
+ $("#rec").onclick=()=>{recall=!recall;answer()};
+ $("#mark").onclick=()=>{done.has(a.id)?done.delete(a.id):done.add(a.id);store.set("ie-done",[...done]);arail();answer();prog()};
+ if(ANSWERS[i+1])$("#next").onclick=()=>{ago(ANSWERS[i+1].id);scrollTo(0,0)};
+}
+function ago(id){acur=id;store.set("ie-ans",id);arail();answer()}
+$("#arail").onclick=e=>{const b=e.target.closest("button");if(b){ago(b.dataset.id);scrollTo(0,0)}};
+
+/* ---------- Viva bank ---------- */
+let vq="",vbook="all";
+function viva(){
+ const groups={};VIVA.filter(v=>(vbook==="all"||v[0]===vbook)&&(!vq||(v[2]+" "+v[3]+" "+v[1]).toLowerCase().includes(vq))).forEach(v=>{const k=v[0]+" · Ch "+v[1];(groups[k]=groups[k]||[]).push(v)});
+ const n=Object.values(groups).reduce((s,g)=>s+g.length,0);
+ $("#viva").innerHTML=`<div class="vhead"><div><div class="eyebrow">Everything else, for the viva</div><h2>Viva bank</h2><p class="hint">${VIVA.length} short questions across every chapter of both books. Say the answer out loud, then open it.</p></div>
+ <div class="row"><input id="vs" type="search" placeholder="Search, e.g. SOLER" value="${esc(vq)}" aria-label="Search viva questions"><div class="chips" id="vb">${["all","Ivey","Egan"].map(b=>`<button aria-pressed="${vbook===b}" data-b="${b}">${b==="all"?"Both books":b}</button>`).join("")}</div><button class="btn primary" id="vr">Random question</button></div></div>
+ <div class="card" id="vpick" hidden></div>
+ ${n?Object.entries(groups).map(([k,vs])=>`<div class="vgroup"><h3>${k}</h3><div class="vgrid">${vs.map(v=>`<details class="vq"><summary>${v[2]}</summary><p>${v[3]}</p></details>`).join("")}</div></div>`).join(""):`<p class="hint">No questions match “${esc(vq)}”.</p>`}`;
+ const s=$("#vs");s.oninput=()=>{vq=s.value.trim().toLowerCase();viva();const t=$("#vs");t.focus();t.setSelectionRange(t.value.length,t.value.length)};
+ $("#vb").onclick=e=>{const b=e.target.closest("button");if(b){vbook=b.dataset.b;viva()}};
+ $("#vr").onclick=()=>{const pool=VIVA.filter(v=>vbook==="all"||v[0]===vbook),v=pool[Math.random()*pool.length|0],p=$("#vpick");p.hidden=false;p.innerHTML=`<span class="eyebrow">${v[0]} · Ch ${v[1]}</span><h3>${v[2]}</h3><details><summary class="btn">Show answer</summary><p>${v[3]}</p></details>`;p.scrollIntoView({block:"nearest"})};
+}
+
+/* ---------- Practice games ---------- */
+const GAMES={
+empathy:{name:"Rate the empathy",intro:"Ivey's three anchor points. Is the counsellor's response subtractive, basic (interchangeable) or additive?",opts:["Subtractive","Basic","Additive"],items:[
+ ["I've been so stressed about my exams that I can't sleep.","You shouldn't worry so much; everyone gets through exams.",0,"It dismisses the client's experience and gives less than was said."],
+ ["I've been so stressed about my exams that I can't sleep.","You're feeling really stressed about the exams, and it's keeping you up at night.",1,"It accurately says back the feeling and context. That's interchangeable."],
+ ["I've been so stressed about my exams that I can't sleep.","You're stressed and losing sleep, and earlier you said this happened last semester too, right before you stopped asking friends for help. Could those be linked?",2,"It links to earlier material and opens a new perspective."],
+ ["My dad never listens to me. He just decides everything.","So, how are your classes going?",0,"It changes the subject, a failure of verbal tracking."],
+ ["My dad never listens to me. He just decides everything.","It sounds frustrating that your dad makes decisions without hearing you.",1,"A clear, accurate reflection of feeling and content."],
+ ["My dad never listens to me. He just decides everything.","You feel unheard by your dad, and yet you've just described very clearly what you want. That skill could help you talk to him.",2,"It adds a strength-based reframe (positive asset)."],
+ ["I finally said no to my boss and it felt amazing.","Hmm, saying no to a boss can be risky.",0,"It ignores the positive feeling and adds the counsellor's own worry."],
+ ["I finally said no to my boss and it felt amazing.","You felt great standing up for yourself with your boss.",1,"Interchangeable: the feeling and the event are reflected back accurately."],
+ ["I finally said no to my boss and it felt amazing.","You felt amazing. That's a real change from the person who said last month they could never disagree with anyone. What does that tell you about yourself?",2,"It adds a link to the past and invites reflection of meaning."]]},
+egan:{name:"Which Egan task?",intro:"Match each helper move or client question to the task of the Skilled Helper model.",opts:["I-A Story","I-B Real story","I-C Right story","II-A Possibilities","II-B Goals","II-C Commitment","III-A Possible strategies","III-B Best-fit strategies","III-C Plan"],items:[
+ ["“Tell me what's been happening since you moved out.”","",0,"Helping the client tell the story (I-A)."],
+ ["“You've said it's always your partner's fault. What part might you be playing?”","",1,"Inviting self-challenge of a blind spot (I-B)."],
+ ["“Of all these concerns, which one, if handled, would make the biggest difference?”","",2,"Choosing a high-leverage issue (I-C)."],
+ ["“Imagine it's a year from now and things are better. What do you see?”","",3,"Possible selves, building hope (II-A)."],
+ ["“So ‘be healthier’ becomes ‘walk 30 minutes, five days a week, by March’.”","",4,"Turning a broad aim into a specific, realistic goal (II-B)."],
+ ["“What are you willing to give up to make this happen?”","",5,"“What am I willing to pay for what I want?” (II-C)."],
+ ["“Let's brainstorm every possible way you could find a job, even wild ones.”","",6,"Generating possible strategies (III-A)."],
+ ["“Of these options, which fit your time, money and values best? Let's do a balance sheet.”","",7,"Choosing best-fit strategies (III-B)."],
+ ["“What will you do first, by when, and what's the backup if it falls through?”","",8,"Sequencing steps with contingency plans (III-C)."],
+ ["“Before we go deeper, I notice you keep apologising to me. What's going on between us right now?”","",1,"Immediacy belongs to I-B."],
+ ["“This crisis comes first. Let's make sure you're safe tonight.”","",2,"I-C principle: manage a crisis first."],
+ ["“Who do you know who has handled something like this well?”","",3,"Using exemplars and role models to find possibilities (II-A)."]]},
+ivey:{name:"Which Ivey stage?",intro:"Place each counsellor statement in Ivey's five-stage session.",opts:["1 Empathic relationship","2 Story & strengths","3 Goals","4 Restory","5 Action"],items:[
+ ["“Welcome. We have about 45 minutes, everything here is confidential, and you're free to stop the recording any time.”","",0,"Structuring and rapport (Stage 1)."],
+ ["“Could you tell me what's been happening, and also what's been going well?”","",1,"Drawing out the story with a positive asset search (Stage 2)."],
+ ["“If this session went really well, what would be different for you?”","",2,"Establishing goals collaboratively (Stage 3)."],
+ ["“On one hand you want to quit, but on the other you love the team. How do you put those together?”","",3,"Empathic confrontation of a discrepancy (Stage 4)."],
+ ["“What's one thing you'll try this week, and how will you know it worked?”","",4,"Generalising to daily life (Stage 5)."],
+ ["“Another way to see it: you didn't fail, you discovered what doesn't work for you.”","",3,"A reframe is restorying (Stage 4)."],
+ ["“Let's summarise today, and next time we'll check how the plan went.”","",4,"Closing and follow-up (Stage 5)."],
+ ["“You've overcome a lot. What strengths helped you then?”","",1,"Strengths are drawn out alongside the story (Stage 2)."]]}
+};
+let gname="empathy",gs={q:[],i:0,r:0};
+function lab(){
+ const G=GAMES[gname];
+ const head=`<div class="chips" id="gsel">${Object.entries(GAMES).map(([k,g])=>`<button aria-pressed="${k===gname}" data-g="${k}">${g.name}</button>`).join("")}</div>`;
+ if(gs.i>=gs.q.length){const key="ie-g-"+gname,best=Math.max(store.get(key,0),gs.r);store.set(key,best);$("#lab").innerHTML=`${head}<div class="eyebrow">${G.name}</div><div class="score">${gs.r}/${gs.q.length}</div><p>Best: ${best}/${gs.q.length}.</p><button class="btn primary" id="ga">Play again</button>`;$("#ga").onclick=()=>startGame(gname);bindSel();return}
+ const it=gs.q[gs.i];let answered=false;
+ $("#lab").innerHTML=`${head}<div class="eyebrow">Practice · ${G.name} · ${gs.i+1}/${gs.q.length} · score ${gs.r}</div><h2 style="font-size:2.1rem">${G.intro}</h2><div class="bar"><i style="width:${gs.i/gs.q.length*100}%"></i></div>
+ <div class="chat" style="margin-top:16px">${it[1]?`<div class="msg C"><div class="meta"><span class="who">Client</span></div>${esc(it[0])}</div><div class="msg T"><div class="meta"><span class="who">Counsellor</span></div>${esc(it[1])}</div>`:`<div class="msg T"><div class="meta"><span class="who">Helper</span></div>${esc(it[0])}</div>`}</div>
+ <div class="opts">${G.opts.map((o,k)=>`<button data-k="${k}">${o}</button>`).join("")}</div><p id="gw"></p><div class="row" id="gn"></div>`;
+ $("#lab .opts").onclick=e=>{const b=e.target.closest("button");if(!b||answered)return;answered=true;const ok=+b.dataset.k===it[2];if(ok)gs.r++;[...$("#lab .opts").children].forEach((x,k)=>{if(k===it[2])x.classList.add("right");x.disabled=true});if(!ok)b.classList.add("wrong");$("#gw").innerHTML=`<b>${ok?"Correct.":"Not quite."}</b> ${it[3]}`;$("#gn").innerHTML=`<button class="btn primary" id="gx">${gs.i+1<gs.q.length?"Next":"See score"}</button>`;$("#gx").onclick=()=>{gs.i++;lab()};$("#gx").focus()};
+ bindSel();
+}
+function bindSel(){$("#gsel").onclick=e=>{const b=e.target.closest("button");if(b)startGame(b.dataset.g)}}
+function startGame(n){gname=n;gs={q:shuffle(GAMES[n].items),i:0,r:0};lab()}
+
+/* ---------- Flashcards (from viva bank) ---------- */
+let deck=[],di=0,again=[],fbook="all";
+function buildDeck(list){deck=list||shuffle(VIVA.filter(v=>fbook==="all"||v[0]===fbook));di=0;again=[];drawCard()}
+function drawCard(){
+ let h=`<div class="eyebrow">Flashcards · ${VIVA.length} cards</div><h2>Say it, then flip</h2><div class="chips" id="fb">${["all","Ivey","Egan"].map(b=>`<button aria-pressed="${fbook===b}" data-b="${b}">${b==="all"?"Both":b}</button>`).join("")}</div>`;
+ if(di>=deck.length)h+=`<div class="face" style="position:static;min-height:180px;margin:16px 0"><div class="q">Deck done</div><div>${deck.length-again.length} of ${deck.length} known.</div></div><div class="row">${again.length?'<button class="btn primary" id="redo">Review missed</button>':""}<button class="btn" id="restart">Shuffle & restart</button></div>`;
+ else{const c=deck[di];h+=`<div class="bar"><i style="width:${di/deck.length*100}%"></i></div><div class="fc" id="fc" tabindex="0" role="button" aria-label="Flip card"><div class="fc-in"><div class="face"><span class="eyebrow">${c[0]} · Ch ${c[1]} · ${di+1}/${deck.length}</span><div class="q">${c[2]}</div><span class="hint">Tap or press Space</span></div><div class="face back"><span class="eyebrow">Answer</span><div>${c[3]}</div></div></div></div><div class="row"><button class="btn" id="miss">Still learning (←)</button><button class="btn primary" id="got">Got it (→)</button></div>`}
+ $("#cards").innerHTML=h;
+ $("#fb").onclick=e=>{const b=e.target.closest("button");if(b){fbook=b.dataset.b;buildDeck()}};
+ if(di>=deck.length){$("#restart").onclick=()=>buildDeck();if(again.length)$("#redo").onclick=()=>buildDeck(shuffle(again));return}
+ $("#fc").onclick=()=>$("#fc").classList.toggle("flip");$("#got").onclick=()=>{di++;drawCard()};$("#miss").onclick=()=>{again.push(deck[di]);di++;drawCard()};
+}
+document.addEventListener("keydown",e=>{if($("#cards").hidden||!$("#fc")||e.target.matches("input,select,textarea"))return;if(e.code==="Space"){e.preventDefault();$("#fc").classList.toggle("flip")}if(e.key==="ArrowRight")$("#got")?.click();if(e.key==="ArrowLeft")$("#miss")?.click()});
+
+/* ---------- Quiz (built from viva bank) ---------- */
+let qs=[],qi=0,qr=0;
+function startQuiz(){qs=shuffle(VIVA).slice(0,15).map(v=>{const wrong=shuffle(VIVA.filter(x=>x!==v&&x[0]===v[0])).slice(0,3).map(x=>x[3]);return {q:v[2],src:`${v[0]} · Ch ${v[1]}`,o:shuffle([{t:v[3],ok:true},...wrong.map(t=>({t,ok:false}))])}});qi=0;qr=0;drawQ()}
+function drawQ(){
+ if(qi>=qs.length){const p=Math.round(qr/qs.length*100),best=Math.max(p,store.get("ie-qbest",0));store.set("ie-qbest",best);$("#quiz").innerHTML=`<div class="eyebrow">Result</div><div class="score">${qr}/${qs.length}</div><p>${p>=80?"Viva ready.":p>=50?"Close. Go back to the viva bank for the ones you missed.":"Read through the viva bank first."} Best: ${best}%.</p><button class="btn primary" id="qa">New quiz</button>`;$("#qa").onclick=startQuiz;return}
+ const q=qs[qi];let a=false;
+ $("#quiz").innerHTML=`<div class="eyebrow">Quiz ${qi+1} of ${qs.length} · ${q.src} · score ${qr}</div><div class="bar" style="margin:10px 0"><i style="width:${qi/qs.length*100}%"></i></div><h2 style="font-size:2rem">${q.q}</h2><p class="hint">Pick the answer that belongs to this question.</p><div class="opts">${q.o.map((o,k)=>`<button data-k="${k}">${o.t}</button>`).join("")}</div><div class="row" id="qn"></div>`;
+ $("#quiz .opts").onclick=e=>{const b=e.target.closest("button");if(!b||a)return;a=true;const p=q.o[+b.dataset.k];[...$("#quiz .opts").children].forEach((x,k)=>{if(q.o[k].ok)x.classList.add("right");x.disabled=true});if(p.ok)qr++;else b.classList.add("wrong");$("#qn").innerHTML=`<button class="btn primary" id="nq">${qi+1<qs.length?"Next":"See result"}</button>`;$("#nq").onclick=()=>{qi++;drawQ()};$("#nq").focus()};
+}
+
+/* ---------- Modes ---------- */
+let labOn=false;
+function mode(m){
+ document.querySelectorAll("nav button").forEach(b=>b.setAttribute("aria-selected",b.dataset.mode===m));
+ ["answers","viva","lab","cards","quiz"].forEach(id=>$("#"+id).hidden=id!==m);
+ if(m==="viva")viva();
+ if(m==="lab"&&!labOn){labOn=true;startGame(gname)}
+ scrollTo(0,0);
+}
+document.querySelector("nav").onclick=e=>{const b=e.target.closest("button");if(b)mode(b.dataset.mode)};
+arail();answer();prog();buildDeck();startQuiz();
+
+</script>
+</body>
+</html>
